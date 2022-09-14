@@ -1,6 +1,6 @@
 package com.qa.demo.persistence;
 
-import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.CoreMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qa.demo.persistence.domain.Person;
 import com.qa.demo.persistence.domain.PersonController;
+import com.qa.demo.persistence.domain.PersonDTO;
 import com.qa.demo.persistence.domain.PersonService;
 
 import io.swagger.v3.oas.models.media.MediaType;
@@ -53,7 +54,8 @@ public class PersonControllerTest {
 	Person per3;
 	
 	List<Person> perList;
-	
+	List<PersonDTO> perListDTO;
+	 
 	@BeforeEach
 	public void setUp() {
 		per1 = new Person(1L, 22, "per1");
@@ -85,7 +87,7 @@ public class PersonControllerTest {
 	@Test
 	@DisplayName("get-person-test")
 	public void given_GetAllPeople_Should_Return_List() throws Exception {
-		when(perService.getAllPeople()).thenReturn(perList);
+		when(perService.getAllPeople()).thenReturn(perListDTO);
 		mockMvc.perform(get("/api/v1/person-service/person")
 				        .accept(MediaType.APPLICATION_JSON))
 				.andDo(MockMvcResultHandlers.print())

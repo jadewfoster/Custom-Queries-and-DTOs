@@ -1,5 +1,7 @@
 package com.qa.demo.persistence;
 
+import org.hamcrest.CoreMatchers.*;
+
 import static org.hamcrest.CoreMatchers.any;
 
 import java.util.Arrays;
@@ -17,6 +19,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.qa.demo.persistence.domain.Person;
+import com.qa.demo.persistence.domain.PersonAlreadyExistsException;
+import com.qa.demo.persistence.domain.PersonDTO;
 import com.qa.demo.persistence.domain.PersonService;
 import com.qa.demo.persistence.repo.PersonRepo;
 
@@ -57,7 +61,7 @@ public class PersonServiceTest {
 	public void given_Person_To_Save_Should_Return_The_Saved_Person() throws PersonAlreadyExistsException {
 		when(perRepository.findByName(any())).thenReturn(null);
 		when(perRepository.save(any())).thenReturn(per1);
-		Person savedPerson = perService.savePerson(per1);
+		PersonDTO savedPerson = perService.addPerson(per1);
 		assertNotNull(savedPerson);
 		assertEquals(1,savedPerson.getId());
 		verify(perRepository,times(1)).findByName(any());
@@ -65,7 +69,7 @@ public class PersonServiceTest {
 	}
 	
 	@Test
-	@DisplayName("save-employee-throws-exception-test")
+	@DisplayName("save-person-throws-exception-test")
 	
 	public void given_Existing_Person_To_Save_Method_Should_Throw_Exception() throws PersonAlreadyExistsException {
 		when(perRepository.findByName(any())).thenReturn(per1);
