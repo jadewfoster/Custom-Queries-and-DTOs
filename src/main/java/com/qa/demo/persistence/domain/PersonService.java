@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 
 @Service
-public class PersonService {
+public class PersonService{
 
     private PersonRepo repo;
 
@@ -54,5 +54,20 @@ public class PersonService {
         boolean exists = this.repo.existsById(id);
         return !exists;
     }
+    
+    public Person getPersonById(long id) throws PersonNotFoundException {
+		Person person = null;
+		
+			Optional<Person> findById = this.repo.findById(id);
+			if(findById.isPresent()) {
+				person = findById.get();
+			} else {
+				throw new PersonNotFoundException();
+			}
+		
+			
+	
+		return person;
+	}
     
 }

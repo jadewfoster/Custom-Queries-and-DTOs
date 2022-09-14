@@ -4,20 +4,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-/**
- * @author jjh44
- *
- */
 @Entity
+@Table(name="per_details")
 public class Person {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	private int age;
-
 	private String name;
 
 	public Person(Long id, int age, String name) {
